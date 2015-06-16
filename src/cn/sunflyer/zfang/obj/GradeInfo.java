@@ -1,10 +1,8 @@
 package cn.sunflyer.zfang.obj;
 
-import java.lang.reflect.Field;
-
 import cn.sunflyer.zfang.anno.Load;
 
-public class GradeInfo {
+public class GradeInfo extends AbsInfo{
 	
 	@Load(name= "学年" , path = 0 , isReq = true)
 	public String stuYear;
@@ -21,15 +19,15 @@ public class GradeInfo {
 	@Load(name = "学分" , path = 6 , isReq = true)
 	public String credit;
 	@Load(name = "绩点" ,path = 7 , isReq = true)
-	public String gradeNorm;
+	public String point;
 	@Load(name = "成绩" , path = 8 , isReq = true)
-	public String gradeMid;
+	public String grade;
 	@Load(name = "辅修标记" , path = 9 , isReq = true)
-	public String gradeEnd;
+	public String subStudy;
 	@Load(name = "补考成绩" , path = 10)
 	public String gradeSec;
 	@Load(name = "重修成绩" , path = 11)
-	public String isRestudy;
+	public String gradeRestudy;
 	@Load(name = "开课学院" , path = 12)
 	public String classIst;
 	@Load(name = "备注" , path = 13)
@@ -39,42 +37,7 @@ public class GradeInfo {
 
 	
 	public GradeInfo(String[] data){
-		Class<?> pCls = this.getClass();
-		Field [] pData = pCls.getFields();
-		for( Field x : pData){
-			Load pli = x.getAnnotation(Load.class);
-			if(pli != null){
-				try {
-					x.set(this, data[pli.path()]);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch(IndexOutOfBoundsException e){
-					System.out.println("访问数组溢出 ： " + pli.name() + "于位置" + pli.path());
-				}
-			}
-		}
-	}
-	
-	public String toString(){
-		Class<?> cls = this.getClass();
-		Field[] data = cls.getFields();
-		StringBuffer pSb = new StringBuffer();
-		for(Field x : data){
-			Load pli = x.getAnnotation(Load.class);
-			if(pli != null && pli.isReq()){
-				try {
-					pSb.append(pli.name() + " : " + x.get(this) + " , ");
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return pSb.toString();
+		super(data);
 	}
 
 }
