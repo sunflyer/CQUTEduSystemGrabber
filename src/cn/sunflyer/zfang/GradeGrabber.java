@@ -5,6 +5,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
+
+import cn.sunflyer.zfang.anno.Invoker;
 //import javax.swing.JOptionPane;
 import cn.sunflyer.zfang.obj.GradeInfo;
 import cn.sunflyer.zfang.obj.UserInfo;
@@ -36,7 +39,7 @@ public class GradeGrabber {
 	/**
 	 * 统计绩点，包括全部科目
 	 * */
-	public static double getGradePoint(ArrayList<GradeInfo> i){
+	public static double getGradePoint(GradeInfo[] i){
 		if(i != null){
 			//去除重复项
 			HashMap<String,GradeInfo> pHm = new HashMap<>();
@@ -70,7 +73,7 @@ public class GradeGrabber {
 	}
 	
 	/**只统计除体育和公共选修以外的课程*/
-	public static double getGradePointNoPE(ArrayList<GradeInfo> i){
+	public static double getGradePointNoPE(GradeInfo[] i){
 		if(i != null){
 			//去除重复项
 			HashMap<String,GradeInfo> pHm = new HashMap<>();
@@ -105,11 +108,21 @@ public class GradeGrabber {
 		return 0;
 	}
 	
+	public static String getConclusion(Object i){
+		if(i != null){
+			GradeInfo[] d = (GradeInfo[])i;
+			String res = "当前全部成绩绩点为 ： " + String.format("%.2f", getGradePoint(d)) + " , 除公共选修和体育课外成绩绩点为 ： " + String.format("%.2f", getGradePointNoPE(d));
+			return res;
+		}
+		return "";
+	}
+	
 	/**
 	 * 抓取成绩
 	 * 可能包括重修后留下的重复项
 	 * */
-	public static ArrayList<GradeInfo> getGrade(UserInfo i){
+	@Invoker(name = "当前成绩信息" ,hasConclusion = true , conclusionMethod = "getConclusion")
+	public static GradeInfo[] getGrade(UserInfo i){
 		if(i != null){			
 			
 			//抓取viewstate
@@ -119,13 +132,8 @@ public class GradeGrabber {
 			
 			try {
 				String postdata = "__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE=" + URLEncoder.encode(pv,"GB2312") + "&hidLanguage=&ddlXN=&ddlXQ=&ddl_kcxz=&btn_zcj=%C0%FA%C4%EA%B3%C9%BC%A8";				
-				pCurrentData = getScoreContent(postdata,i);
-					
-				//System.out.println(data);
+				pCurrentData = getScoreContent(postdata,i);					
 				
-				
-				//String pData = EduSystem.catchKey(pCurrentData , "<tr class=\"datelisthead\">" , "</table>");
-				//String[] pClassList = pData.replace("<tr>","").replace("<tr class=\"alt\">","").split("</tr>");
 				String[] pClassList = EduSystem.getTable(pCurrentData);
 				
 				if(pClassList == null || pCurrentData.contains("错误") || pCurrentData.contains("ERROR")){
@@ -133,7 +141,7 @@ public class GradeGrabber {
 					return null;			
 				}
 				
-				ArrayList<GradeInfo> pGrade = new ArrayList<GradeInfo>();
+				ArrayList<GradeInfo> pGrade = new ArrayList<GradeInfo>();							
 				
 				for(int z = 1 ; z < pClassList.length ; z++){
 					String pRep[] = EduSystem.getRowData(pClassList[z]);
@@ -141,7 +149,7 @@ public class GradeGrabber {
 						pGrade.add(new GradeInfo(pRep));
 				}
 				
-				return pGrade;
+				return pGrade.toArray(new GradeInfo[]{});
 				
 			} catch (UnsupportedEncodingException e) {
 				
@@ -219,7 +227,7 @@ public class GradeGrabber {
 	}
 	
 	/**Console Output Grade*/
-	public static void printGrade(ArrayList<GradeInfo> pGrade){
+	public static void printGrade(GradeInfo[] pGrade){
 		if(pGrade == null) return;
 		
 		System.out.println("课程学年\t课程学期\t课程代码\t课程学分\t课程绩点\t课程成绩\t是否重修\t课程名称");

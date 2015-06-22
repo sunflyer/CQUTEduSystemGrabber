@@ -12,7 +12,7 @@ public class GradeInfo extends AbsInfo{
 	public String classCode;
 	@Load(name = "课程名称" , path = 3, isReq = true)
 	public String className;
-	@Load(name = "课程性质" , path = 4)
+	@Load(name = "课程性质" , path = 4 , isReq = true)
 	public String classType;
 	@Load(name = "课程归属" , path = 5)
 	public String classTo;

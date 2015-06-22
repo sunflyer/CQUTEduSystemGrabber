@@ -2,6 +2,7 @@ package cn.sunflyer.zfang;
 
 import java.util.ArrayList;
 
+import cn.sunflyer.zfang.anno.Invoker;
 import cn.sunflyer.zfang.obj.SelectedClassInfo;
 import cn.sunflyer.zfang.obj.UserInfo;
 
@@ -13,7 +14,9 @@ public class SelectedClassGrabber {
 	/**
 	 * 抓取已经选好的课程。仅限选课期间可用
 	 * */
-	public static ArrayList<SelectedClassInfo> getSelectedClassInfo(UserInfo i){
+	@Invoker(name = "选课信息")
+	public static SelectedClassInfo[] getSelectedClassInfo(UserInfo i){
+		
 		if(i != null){
 			String pCurr = EduSystem.getJwxtContent("xf_xszyyxkc.aspx", "&gnmkdm=N121201", "", i);
 			if(pCurr != null){
@@ -26,7 +29,7 @@ public class SelectedClassGrabber {
 							pArr.add(new SelectedClassInfo(pRow));
 						}
 					}
-					return pArr;
+					return pArr.toArray(new SelectedClassInfo[]{});
 				}
 			}
 		}

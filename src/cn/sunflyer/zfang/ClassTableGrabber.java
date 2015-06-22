@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import cn.sunflyer.zfang.anno.Invoker;
 import cn.sunflyer.zfang.obj.UserInfo;
 
 public class ClassTableGrabber {
@@ -12,6 +13,7 @@ public class ClassTableGrabber {
 	/**
 	 * 抓课表，打印课表网页源代码
 	 * */
+	@Invoker(name="当前课表信息")
 	public static void getClassTable(UserInfo i){
 		String data = EduSystem.getJwxtContent("xskbcx.aspx", "&gnmkdm=N121602", "", i);
 		
