@@ -22,7 +22,7 @@ public class GradeInfo extends AbsInfo{
 	public String point;
 	@Load(name = "成绩" , path = 8 , isReq = true)
 	public String grade;
-	@Load(name = "辅修标记" , path = 9 , isReq = true)
+	@Load(name = "辅修标记" , path = 9)
 	public String subStudy;
 	@Load(name = "补考成绩" , path = 10)
 	public String gradeSec;
