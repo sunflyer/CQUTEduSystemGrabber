@@ -32,11 +32,11 @@ public class Saver {
 		// TODO : remove the following one line if webpage encoding failed.
 		//pSb.append("<meta charset=\"UTF-8\">");
 
-		pSb.append("<style>body{font-family:\"Microsoft Yahei\";text-align:center;}.gradeinfo{margin:auto;width:90%;border-bottom:1px dashed #808080;}.conclusion{font-style:italic;color:purple;}.part_title{text-decoration:underline;}table{margin:auto;min-width:90%;}td{min-width:100px;}table{border:1px solid black;}.tr_head{background-color:#0043ff;color:white;}.tr_info{border-bottom:1px solid black;}.tr_back{background-color:#F0F0F0;}</style><title>"
+		pSb.append("<style>body{font-family:\"Microsoft Yahei\";text-align:center;}.gradeinfo{margin:auto;width:90%;border-bottom:1px dashed #808080;}.conclusion{font-style:italic;color:purple;}.part_title{text-decoration:underline;}table{margin:auto;min-width:90%;}td{min-width:100px;}table{border:1px solid black;}.tr_head{background-color:#0043ff;color:white;}.tr_info{border-bottom:1px solid black;}.tr_back{background-color:#F0F0F0;}td{padding:3px;}</style><title>"
 				+ name + "</title></head><body><h2>" + name + "</h2>");
 
 		//TODO : 修改要执行操作的类
-		String clsList[] = {"Grade","BandRanking","SelectedClass"};
+		String clsList[] = {"GradeEx","Grade","BandRanking","SelectedClass"};
 		
 		int partnum = 1;
 		for(String x:clsList){
@@ -58,6 +58,7 @@ public class Saver {
 									conclusionData = String.valueOf(getConclusionMethod.invoke(null, resObj));
 								}catch(Exception e){
 									System.out.println("抓取概括信息出现错误 : " + e.getMessage());
+									e.printStackTrace();
 								}
 							}
 							pSb.append(getInfoToTable(getPartTitle(partnum + "", inv.name()), res, inv.nodata(), conclusionData));

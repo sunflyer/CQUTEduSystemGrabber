@@ -14,9 +14,11 @@ public class Main {
 		UserInfo pUi = EduSystem.login(username,password);
 	**/
 		//TODO CHANGE YOUR NAME AND PASSWORD HERE
-		UserInfo pUi = EduSystem.login("","");
+		UserInfo pUi = EduSystem.login("学号","密码");
 		
 		//ClassTableGrabber.getClassTable(pUi);
+		
+		//GradeExGrabber.getGradeGx(pUi);
 		
 		Saver.saveGrade(pUi);
 		
