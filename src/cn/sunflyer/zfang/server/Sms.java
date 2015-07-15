@@ -10,7 +10,7 @@ import javax.json.JsonObject;
 
 public class Sms {
 	
-	private static final String API_KEY = "ddb42464dcb3a9285213e7fc80b7ed3b";
+	private static final String API_KEY = "";
 	
 	public static boolean send(String no,String con){
 		if(!GradeMap.isNullOrEmpty(no) && !GradeMap.isNullOrEmpty(con)){
